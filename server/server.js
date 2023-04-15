@@ -18,7 +18,7 @@ app.get("/posts", (req, res, next) => {
     });
 });
 
-app.get("/post/:id", (req, res) => {
+app.get("/post/:id", (req, res, next) => {
     db.get(`SELECT rowid, * FROM posts WHERE rowid = ?`, [req.params.id], (err, row) => {
         if (err) {
           res.status(400).json({"error": err.message});
@@ -41,8 +41,7 @@ app.post("/post", (req, res, next) => {
 });
 
 app.put("/post/:id", (req, res, next) => {
-    var reqBody = re.body;
-    db.run(`UPDATE employees set title = ?, author = ?, description = ? WHERE rowid = ?`,
+    db.run(`UPDATE posts SET title = ?, author = ?, description = ? WHERE rowid = ?`,
         [req.body.title, req.body.author, req.body.description, req.params.id],
         function (err, result) {
             if (err) {
@@ -53,8 +52,20 @@ app.put("/post/:id", (req, res, next) => {
         });
 });
 
+app.put("/post/:id/count", (req, res, next) => {
+    db.run(`UPDATE posts SET betCount = ? WHERE rowid = ?`,
+        [req.body.betCount, req.params.id],
+        function (err, result) {
+            if (err) {
+                res.status(400).json({ "error": res.message })
+                return;
+            }
+            res.status(200);
+        });
+});
+
 app.delete("/post/:id", (req, res, next) => {
-    db.run(`DELETE FROM user WHERE id = ?`, [req.params.id],
+    db.run(`DELETE FROM posts WHERE rowid = ?`, [req.params.id],
         function (err, result) {
             if (err) {
                 res.status(400).json({ "error": res.message })
