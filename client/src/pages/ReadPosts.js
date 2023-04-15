@@ -13,19 +13,19 @@ const ReadPosts = () => {
             throw new Error(`HTTP error: ${response.status}`);
         }
         const data = await response.json();
-        setPosts(data.rows); 
+        setPosts(data.rows);
     }
 
     useEffect(() => {
         fetchPosts();
-    });
+    }, []);
     
     return (
         <div className="ReadPosts">
             {
                 posts && posts.length > 0 ?
                 posts.map((post, index) => 
-                   <Card key={post.rowid} id={post.rowid} title={post.title} author={post.author} description={post.description}/>
+                   <Card key={post.rowid.toString()} id={post.rowid.toString()} title={post.title} author={post.author} description={post.description} />
                 ) : <h2>{'No Challenges Yet 😞'}</h2>
             }
         </div>  
