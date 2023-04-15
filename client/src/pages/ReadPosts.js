@@ -4,19 +4,20 @@ import Card from '../components/Card';
 const ReadPosts = () => {
 
     const [posts, setPosts] = useState([]);
-    const fetchPosts = async () => {
-        const response = await fetch("http://localhost:8000/posts", {
-            method: "GET",
-            mode: "cors",
-        });
-        if (!response.ok) {
-            throw new Error(`HTTP error: ${response.status}`);
-        }
-        const data = await response.json();
-        setPosts(data.rows);
-    }
 
     useEffect(() => {
+        async function fetchPosts() {
+            const response = await fetch("http://localhost:8000/posts", {
+                method: "GET",
+                mode: "cors",
+            });
+            if (!response.ok) {
+                throw new Error(`HTTP error: ${response.status}`);
+            }
+            const data = await response.json();
+            setPosts(data.rows);
+        }
+
         fetchPosts();
     }, []);
     
@@ -25,7 +26,7 @@ const ReadPosts = () => {
             {
                 posts && posts.length > 0 ?
                 posts.map((post, index) => 
-                   <Card key={post.rowid.toString()} id={post.rowid.toString()} title={post.title} author={post.author} description={post.description} />
+                   <Card key={post.rowid} id={post.rowid.toString()} title={post.title} author={post.author} description={post.description} betCount={post.betCount} />
                 ) : <h2>{'No Challenges Yet 😞'}</h2>
             }
         </div>  
