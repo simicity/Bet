@@ -36,7 +36,7 @@ app.post("/post", (req, res, next) => {
                 res.status(400).json({ "error": err.message })
                 return;
             }
-            res.status(201);
+            res.status(201).end();
         });
 });
 
@@ -48,7 +48,7 @@ app.put("/post/:id", (req, res, next) => {
                 res.status(400).json({ "error": res.message })
                 return;
             }
-            res.status(200);
+            res.status(200).end();
         });
 });
 
@@ -60,7 +60,7 @@ app.put("/post/:id/count", (req, res, next) => {
                 res.status(400).json({ "error": res.message })
                 return;
             }
-            res.status(200);
+            res.status(200).end();
         });
 });
 
@@ -71,7 +71,7 @@ app.delete("/post/:id", (req, res, next) => {
                 res.status(400).json({ "error": res.message })
                 return;
             }
-            res.status(200);
+            res.status(200).end();
         });
 });
 
